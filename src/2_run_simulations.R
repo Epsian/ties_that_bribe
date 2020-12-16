@@ -8,6 +8,12 @@ library(statnet)
 library(nattswap)
 library(parallel)
 
+# how many cores to use in parallel
+.cores = 30
+
+# what attribute do you want to simulate?
+.sim_att = "lep"
+
 ## in/out ####
 
 # location of largest component networks
@@ -21,8 +27,8 @@ library(parallel)
 .t2_sim_dir = "./data/sims/t2"
 
 # where to save combined simulations results
-.t1_sim_results = "./data/sims/t1_sim_results.rda"
-.t2_sim_results = "./data/sims/t2_sim_results.rda"
+.t1_sim_results = paste0("./data/sims/t1_sim_results_", .sim_att, ".rda")
+.t2_sim_results = paste0("./data/sims/t2_sim_results_", .sim_att, ".rda")
 
 # where to save simulation output
 
@@ -33,13 +39,14 @@ t2.l.g = readRDS(.t2_net_loc)
 
 # run simulations ####
 
-t1_sims = run_att_swap_sims(net_to_swap = t1.l.g, attribute = "lep", swaps = 10000, save_dir = .t1_sim_dir, sims = 10, save_preface = "t1_sim", verbose = FALSE)
-t2_sims = run_att_swap_sims(net_to_swap = t2.l.g, attribute = "lep", swaps = 10000, save_dir = .t1_sim_dir, sims = 10, save_preface = "t2_sim", verbose = FALSE)
+# LEP combined
+t1_sims = run_att_swap_sims(net_to_swap = t1.l.g, attribute = .sim_att, swaps = 10000, save_dir = paste0(.t1_sim_dir, "/", .sim_att), sims = 10000, save_preface = paste0("t1_sim_", .sim_att), verbose = FALSE, cores = .cores)
+t2_sims = run_att_swap_sims(net_to_swap = t2.l.g, attribute = .sim_att, swaps = 10000, save_dir = paste0(.t2_sim_dir, "/", .sim_att), sims = 10000, save_preface = paste0("t2_sim_", .sim_att), verbose = FALSE, cores = .cores)
 
 # reformat sims ####
 
-t1_combined_sims = combine_net_att_sims(t1_sims, swapped_attribute = "lep")
-t2_combined_sims = combine_net_att_sims(t2_sims, swapped_attribute = "lep")
+t1_combined_sims = combine_net_att_sims(t1_sims, swapped_attribute = .sim_att)
+t2_combined_sims = combine_net_att_sims(t2_sims, swapped_attribute = .sim_att)
 
 # save out ####
 
