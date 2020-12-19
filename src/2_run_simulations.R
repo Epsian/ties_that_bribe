@@ -30,6 +30,10 @@ library(parallel)
 .t1_sim_results = paste0("./data/sims/t1_sim_results_", .sim_att, ".rda")
 .t2_sim_results = paste0("./data/sims/t2_sim_results_", .sim_att, ".rda")
 
+# where to save sig lists
+.t1_sim_sig_out = paste0("./data/sims/t1_sim_sigs_", .sim_att, ".rda")
+.t2_sim_sig_out = paste0("./data/sims/t2_sim_sigs_", .sim_att, ".rda")
+
 # where to save simulation output
 
 # data load ####
@@ -48,7 +52,14 @@ t2_sims = run_att_swap_sims(net_to_swap = t2.l.g, attribute = .sim_att, swaps = 
 t1_combined_sims = combine_net_att_sims(t1_sims, swapped_attribute = .sim_att)
 t2_combined_sims = combine_net_att_sims(t2_sims, swapped_attribute = .sim_att)
 
+# get plot format ####
+
+t1_sim_sig = get_att_swap_sig(t1_combined_sims, .sim_att)
+t2_sim_sig = get_att_swap_sig(t2_combined_sims, .sim_att)
+
 # save out ####
 
-saveRDS(t1_combined_sims, .t1_sim_results)
-saveRDS(t2_combined_sims, .t2_sim_results)
+saveRDS(t1_sim_sig, .t1_sim_sig_out)
+saveRDS(t2_sim_sig, .t2_sim_sig_out)
+
+
