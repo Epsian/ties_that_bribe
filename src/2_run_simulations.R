@@ -31,8 +31,8 @@ library(parallel)
 .t2_sim_results = paste0("./data/sims/t2_sim_results_", .sim_att, ".rda")
 
 # where to save sig lists
-.t1_sim_sig_out = paste0("./data/sims/t1_sim_sigs_", .sim_att, ".rda")
-.t2_sim_sig_out = paste0("./data/sims/t2_sim_sigs_", .sim_att, ".rda")
+.t1_sim_sig_out = paste0("./data/sims/t1/", .sim_att, "/t1_sim_sigs_", .sim_att, ".rda")
+.t2_sim_sig_out = paste0("./data/sims/t2/", .sim_att, "/t2_sim_sigs_", .sim_att, ".rda")
 
 # where to save simulation output
 
