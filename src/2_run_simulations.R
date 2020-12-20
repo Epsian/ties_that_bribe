@@ -59,6 +59,9 @@ t2_sim_sig = get_att_swap_sig(t2_combined_sims, .sim_att)
 
 # save out ####
 
+saveRDS(t1_combined_sims, .t1_sim_results)
+saveRDS(t2_combined_sims, .t2_sim_results)
+
 saveRDS(t1_sim_sig, .t1_sim_sig_out)
 saveRDS(t2_sim_sig, .t2_sim_sig_out)
 
