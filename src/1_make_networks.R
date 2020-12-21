@@ -161,12 +161,12 @@ t2.data$ID <- 1:nrow(t2.data)
 t2.l.g%v%"ID" <- t2.data$ID
 
 # rename columns
-colnames(t1.data) = c("vertex_name", "law_enforcement", "politician", "lep", "degree", "kcore", "mean_distance.", "closeness", "fragment", "evc", "max_cohesion", "nestedness", "bet", "n_bet", "ID")
-colnames(t2.data) = c("vertex_name", "law_enforcement", "politician", "lep", "degree", "kcore", "mean_distance.", "closeness", "fragment", "evc", "max_cohesion", "nestedness", "bet", "n_bet", "ID")
+colnames(t1.data) = c("vertex_name", "law_enforcement", "politician", "lep", "degree", "kcore", "mean_distance", "closeness", "fragment", "evc", "max_cohesion", "nestedness", "bet", "n_bet", "ID")
+colnames(t2.data) = c("vertex_name", "law_enforcement", "politician", "lep", "degree", "kcore", "mean_distance", "closeness", "fragment", "evc", "max_cohesion", "nestedness", "bet", "n_bet", "ID")
 
 # re-order columns
-t1.data = t1.data[, c("ID", "vertex_name", "law_enforcement", "politician", "lep", "degree", "kcore", "mean_distance.", "closeness", "fragment", "evc", "max_cohesion", "nestedness", "bet", "n_bet")]
-t2.data = t2.data[, c("ID", "vertex_name", "law_enforcement", "politician", "lep", "degree", "kcore", "mean_distance.", "closeness", "fragment", "evc", "max_cohesion", "nestedness", "bet", "n_bet")]
+t1.data = t1.data[, c("ID", "vertex_name", "law_enforcement", "politician", "lep", "degree", "kcore", "mean_distance", "closeness", "fragment", "evc", "max_cohesion", "nestedness", "bet", "n_bet")]
+t2.data = t2.data[, c("ID", "vertex_name", "law_enforcement", "politician", "lep", "degree", "kcore", "mean_distance", "closeness", "fragment", "evc", "max_cohesion", "nestedness", "bet", "n_bet")]
 
 # save out ####
 saveRDS(t1.l.g, file = .t1_net_out)
