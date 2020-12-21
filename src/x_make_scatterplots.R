@@ -3,7 +3,7 @@
 # setup ####
 
 # load packages
-library(plotly)
+library(ggplot2)
 
 # load data
 t1_data = read.csv("./data/t1_data.csv", header = TRUE, stringsAsFactors = FALSE)
@@ -25,34 +25,23 @@ t2_data = t2_data[t2_data$vertex_name != "Capone, Al",]
 
 ## make degree x nesteddness plot ####
 
-t1_dn_plot = plot_ly(data = t1_data, x = ~degree, y = ~nestedness, color = ~class, type = "scatter", mode = "markers")
-t1_dn_plot
+t1_dn_plot = ggplot(t1_data, aes(degree, nestedness)) + geom_jitter(aes(color = class), width = 1, height = 1) + labs(title = "Nestedness by Degree Centrality", subtitle = "1900-1919")
+t1_dn_plot + theme_classic()
 
 ## make evc x nestedness plot ####
 
-t1_en_plot = plot_ly(data = t1_data, x = ~evc, y = ~nestedness, color = ~class, type = "scatter", mode = "markers")
-t1_en_plot
+t1_en_plot = ggplot(t1_data, aes(evc, nestedness)) + geom_jitter(aes(color = class), width = 0.015, height = 1) + labs(title = "Nestedness by Eigenvector Centrality", subtitle = "1900-1919")
+t1_en_plot + theme_classic()
 
 # t2 ####
 
 ## make degree x nesteddness plot ####
 
-t2_dn_plot = plot_ly(data = t2_data, x = ~degree, y = ~nestedness, color = ~class, type = "scatter", mode = "markers")
-t2_dn_plot
+t2_dn_plot = ggplot(t2_data, aes(degree, nestedness)) + geom_jitter(aes(color = class), width = 1, height = 1) + labs(title = "Nestedness by Degree Centrality", subtitle = "1920-1933")
+t2_dn_plot + theme_classic()
 
 ## make evc x nestedness plot ####
 
-t2_en_plot = plot_ly(data = t2_data, x = ~evc, y = ~nestedness, color = ~class, type = "scatter", mode = "markers")
-t2_en_plot
+t2_en_plot = ggplot(t2_data, aes(evc, nestedness)) + geom_jitter(aes(color = class), width = 0.015, height = 1) + labs(title = "Nestedness by Eigenvector Centrality", subtitle = "1920-1933")
+t2_en_plot + theme_classic()
 
-
-# working on regression lines ---------------------------------------------------
-
-# with single fit line
-
-#fit = lm(nestedness ~ evc, data = t1_data)
-#
-#t1_data %>%
-#  plot_ly(x = ~evc) %>%
-#  add_markers(y = ~nestedness) %>%
-#  add_lines(x = ~evc, y = fitted(fit))
