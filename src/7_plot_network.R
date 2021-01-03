@@ -7,6 +7,8 @@ library(statnet)
 library(intergraph)
 library(visNetwork)
 library(htmlwidgets)
+library(ggplot2)
+library(GGally)
 
 # add journal font
 library(showtext)
@@ -20,19 +22,28 @@ t2.l.g = readRDS("./data/t2.l.g.rda")
 t1_data = read.csv("./data/t1_data.csv", header = TRUE, stringsAsFactors = FALSE)
 t2_data = read.csv("./data/t2_data.csv", header = TRUE, stringsAsFactors = FALSE)
 
+t1.coords = readRDS("./vis/t1.plot.loc.rda")
+t2.coords = readRDS("./vis/t2.plot.loc.rda")
+
+# set node colors
+crim.col = "#c0c0c0"
+le.col = "#808080"
+pol.col = "#000000"
+
 # static plots for publication ####
 
+t1.col = ifelse(t1_data$law_enforcement, le.col, crim.col)
+t1.col[t1_data$politician] = "#000000"
 
 
 
-
-
-
-
-
-
-
-
+t1.plot = gplot(t1.l.g,
+                gmode = "graph",
+                vertex.col = t1.col,
+                vertex.cex = log(t1_data$nestedness),
+                edge.col = "grey"
+                #coord = t1.coords
+)
 
 
 
