@@ -13,6 +13,11 @@ library(showtext)
 font_add(family = "STIX", regular = "P:/pCloud Sync/Projects/school/QP/state_sims/STIX2Text-Regular.otf")
 showtext_auto() 
 
+# dot colors
+crim.col = "#c0c0c0"
+le.col = "#4C4C4C"
+pol.col = "#000000"
+
 # load data
 t1_data = read.csv("./data/t1_data.csv", header = TRUE, stringsAsFactors = FALSE)
 t2_data = read.csv("./data/t2_data.csv", header = TRUE, stringsAsFactors = FALSE)
@@ -38,7 +43,7 @@ t1_dn_plot = ggplot(t1_data, aes(x = degree, y = nestedness, color = `Node Type`
   geom_jitter(width = 1, height = 1, size = 1) +
   labs(title = "Nestedness by Degree Centrality", subtitle = "1900-1919") +
   theme_classic(base_size = 12, base_family = "STIX") +
-  scale_color_manual(breaks = c("Criminal", "Law Enforcement", "Politician"), values = c("#c0c0c0", "#808080", "#000000")) +
+  scale_color_manual(breaks = c("Criminal", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
   stat_smooth(method = lm, se = FALSE, size = .4, linetype = "dotted", fullrange = TRUE)
 
 # turn into dynamic with plotly
@@ -55,7 +60,7 @@ t1_en_plot = ggplot(t1_data, aes(x = evc, y = nestedness, color = `Node Type`)) 
   geom_jitter(width = 0.015, height = 1, size = 0.5) +
   labs(title = "Nestedness by Eigenvector Centrality", subtitle = "1900-1919") +
   theme_classic(base_size = 12, base_family = "STIX") +
-  scale_color_manual(breaks = c("Criminal", "Law Enforcement", "Politician"), values = c("#c0c0c0", "#808080", "#000000")) +
+  scale_color_manual(breaks = c("Criminal", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
   stat_smooth(method = lm, se = FALSE, size = .4, linetype = "dotted", fullrange = TRUE)
 
 # turn into dynamic with plotly
@@ -74,7 +79,7 @@ t2_dn_plot = ggplot(t2_data, aes(x = degree, y = nestedness, color = `Node Type`
   geom_jitter(width = 1, height = 1, size = 0.5) +
   labs(title = "Nestedness by Degree Centrality", subtitle = "1900-1919") +
   theme_classic(base_size = 12, base_family = "STIX") +
-  scale_color_manual(breaks = c("Criminal", "Law Enforcement", "Politician"), values = c("#c0c0c0", "#808080", "#000000")) +
+  scale_color_manual(breaks = c("Criminal", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
   stat_smooth(method = lm, se = FALSE, size = .4, linetype = "dotted", fullrange = TRUE)
 
 # turn into dynamic with plotly
@@ -91,7 +96,7 @@ t2_en_plot = ggplot(t2_data, aes(x = evc, y = nestedness, color = `Node Type`)) 
   geom_jitter(width = 0.015, height = 1, size = 0.5) +
   labs(title = "Nestedness by Eigenvector Centrality", subtitle = "1900-1919") +
   theme_classic(base_size = 12, base_family = "STIX") +
-  scale_color_manual(breaks = c("Criminal", "Law Enforcement", "Politician"), values = c("#c0c0c0", "#808080", "#000000")) +
+  scale_color_manual(breaks = c("Criminal", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
   stat_smooth(method = lm, se = FALSE, size = .4, linetype = "dotted", fullrange = TRUE)
 
 # turn into dynamic with plotly
