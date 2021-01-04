@@ -18,6 +18,10 @@ crim.col = "#c0c0c0"
 le.col = "#4C4C4C"
 pol.col = "#000000"
 
+# static plot sizes
+.static_width = 650
+.static_height = 650
+
 # load data
 t1_data = read.csv("./data/t1_data.csv", header = TRUE, stringsAsFactors = FALSE)
 t2_data = read.csv("./data/t2_data.csv", header = TRUE, stringsAsFactors = FALSE)
@@ -50,7 +54,7 @@ t1_dn_plot = ggplot(t1_data, aes(x = degree, y = nestedness, color = `Node Type`
 t1_dn_plot_dyn = ggplotly(t1_dn_plot) %>% layout(title = list(text = paste0('Nestedness by Degree Centrality', '<br>', '<sup>', '1900-1919', '</sup>')), xaxis = list(title = "Total Degree"), yaxis = list(title = "Nestedness"))
 
 # save static and dynamic plots
-orca(t1_dn_plot_dyn, "./vis/t1_dn_plot.pdf", width = 1000, height = 1000)
+orca(t1_dn_plot_dyn, "./vis/scatterplots/t1_dn_plot.pdf", width = .static_width, height = .static_height)
 saveWidget(as_widget(t1_dn_plot_dyn), "t1_dn_plot.html")
 
 ## make evc x nestedness plot ####
@@ -67,7 +71,7 @@ t1_en_plot = ggplot(t1_data, aes(x = evc, y = nestedness, color = `Node Type`)) 
 t1_en_plot_dyn = ggplotly(t1_en_plot) %>% layout(title = list(text = paste0('Nestedness by Eigenvector Centrality', '<br>', '<sup>', '1900-1919', '</sup>')), xaxis = list(title = "Eigenvector Centrality"), yaxis = list(title = "Nestedness"))
 
 # save static and dynamic plots
-orca(t1_en_plot_dyn, "./vis/t1_en_plot.pdf", width = 1000, height = 1000)
+orca(t1_en_plot_dyn, "./vis/scatterplots/t1_en_plot.pdf", width = .static_width, height = .static_height)
 saveWidget(as_widget(t1_en_plot_dyn), "t1_en_plot.html")
 
 # t2 ####
@@ -86,7 +90,7 @@ t2_dn_plot = ggplot(t2_data, aes(x = degree, y = nestedness, color = `Node Type`
 t2_dn_plot_dyn = ggplotly(t2_dn_plot) %>% layout(title = list(text = paste0('Nestedness by Degree Centrality', '<br>', '<sup>', '1920-1933', '</sup>')), xaxis = list(title = "Total Degree"), yaxis = list(title = "Nestedness"))
 
 # save static and dynamic plots
-orca(t2_dn_plot_dyn, "./vis/t2_dn_plot.pdf", width = 1000, height = 1000)
+orca(t2_dn_plot_dyn, "./vis/scatterplots/t2_dn_plot.pdf", width = .static_width, height = .static_height)
 saveWidget(as_widget(t2_dn_plot_dyn), "t2_dn_plot.html")
 
 ## make evc x nestedness plot ####
@@ -103,7 +107,7 @@ t2_en_plot = ggplot(t2_data, aes(x = evc, y = nestedness, color = `Node Type`)) 
 t2_en_plot_dyn = ggplotly(t2_en_plot) %>% layout(title = list(text = paste0('Nestedness by Eigenvector Centrality', '<br>', '<sup>', '1920-1933', '</sup>')), xaxis = list(title = "Eigenvector Centrality"), yaxis = list(title = "Nestedness"))
 
 # save static and dynamic plots
-orca(t2_en_plot_dyn, "./vis/t2_en_plot.pdf", width = 1000, height = 1000)
+orca(t2_en_plot_dyn, "./vis/scatterplots/t2_en_plot.pdf", width = .static_width, height = .static_height)
 saveWidget(as_widget(t2_en_plot_dyn), "t2_en_plot.html")
 
 
