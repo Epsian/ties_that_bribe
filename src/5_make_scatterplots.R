@@ -14,8 +14,8 @@ font_add(family = "STIX", regular = "P:/pCloud Sync/Projects/school/QP/state_sim
 showtext_auto() 
 
 # dot colors
-crim.col = "#c0c0c0"
-le.col = "#4C4C4C"
+crim.col = "#cccccc"
+le.col = "#7c7c7c"
 pol.col = "#000000"
 
 # static plot sizes

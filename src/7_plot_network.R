@@ -26,8 +26,8 @@ t1.coords = readRDS("./vis/t1.plot.loc.rda")
 t2.coords = readRDS("./vis/t2.plot.loc.rda")
 
 # set node colors
-crim.col = "#c0c0c0"
-le.col = "#4C4C4C"
+crim.col = "#cccccc"
+le.col = "#7c7c7c"
 pol.col = "#000000"
 
 # static plots for publication ####
