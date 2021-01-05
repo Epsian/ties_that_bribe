@@ -88,6 +88,16 @@ t2.visnet[["nodes"]]$color[t2.visnet[["nodes"]]$Politician] = pol.col
 t1.visnet[["nodes"]]$label = NA
 t2.visnet[["nodes"]]$label = NA
 
+# add in hover text
+t1.visnet[["nodes"]]$title = paste0("<b>Node Metrics</b>", "<br>",
+                                    "Degree: ", t1.visnet[["nodes"]]$degree, "<br>",
+                                    "Eigenvector: ", round(t1.visnet[["nodes"]]$evc, digits = 3), "<br>",
+                                    "Nestedness: ", t1.visnet[["nodes"]]$nestedness, "<br>")
+t2.visnet[["nodes"]]$title = paste0("<b>Node Metrics</b>", "<br>",
+                                    "Degree: ", t2.visnet[["nodes"]]$degree, "<br>",
+                                    "Eigenvector: ", round(t2.visnet[["nodes"]]$evc, digits = 3), "<br>",
+                                    "Nestedness: ", t2.visnet[["nodes"]]$nestedness, "<br>")
+
 ## set up plots ####
 
 t1.interactive = visNetwork(nodes = t1.visnet$nodes, edges = t1.visnet$edges) %>%
