@@ -48,7 +48,9 @@ t1_dn_plot = ggplot(t1_data, aes(x = degree, y = nestedness, color = `Node Type`
   labs(title = "Nestedness by Degree Centrality", subtitle = "1900-1919") +
   theme_classic(base_size = 12, base_family = "STIX") +
   scale_color_manual(breaks = c("Criminal", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
-  stat_smooth(method = lm, se = FALSE, size = .4, linetype = "dotted", fullrange = TRUE)
+  stat_smooth(method = lm, se = FALSE, size = .4, linetype = "dotted", fullrange = TRUE) +
+  xlim(0, 70) + 
+  ylim(0, 35)
 
 # turn into dynamic with plotly
 t1_dn_plot_dyn = ggplotly(t1_dn_plot) %>% layout(title = list(text = paste0('Nestedness by Degree Centrality', '<br>', '<sup>', '1900-1919', '</sup>')), xaxis = list(title = "Total Degree"), yaxis = list(title = "Nestedness"))
@@ -65,7 +67,9 @@ t1_en_plot = ggplot(t1_data, aes(x = evc, y = nestedness, color = `Node Type`)) 
   labs(title = "Nestedness by Eigenvector Centrality", subtitle = "1900-1919") +
   theme_classic(base_size = 12, base_family = "STIX") +
   scale_color_manual(breaks = c("Criminal", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
-  stat_smooth(method = lm, se = FALSE, size = .4, linetype = "dotted", fullrange = TRUE)
+  stat_smooth(method = lm, se = FALSE, size = .4, linetype = "dotted", fullrange = TRUE) +
+  xlim(0, 0.3) + 
+  ylim(0, 25)
 
 # turn into dynamic with plotly
 t1_en_plot_dyn = ggplotly(t1_en_plot) %>% layout(title = list(text = paste0('Nestedness by Eigenvector Centrality', '<br>', '<sup>', '1900-1919', '</sup>')), xaxis = list(title = "Eigenvector Centrality"), yaxis = list(title = "Nestedness"))
@@ -84,7 +88,9 @@ t2_dn_plot = ggplot(t2_data, aes(x = degree, y = nestedness, color = `Node Type`
   labs(title = "Nestedness by Degree Centrality", subtitle = "1900-1919") +
   theme_classic(base_size = 12, base_family = "STIX") +
   scale_color_manual(breaks = c("Criminal", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
-  stat_smooth(method = lm, se = FALSE, size = .4, linetype = "dotted", fullrange = TRUE)
+  stat_smooth(method = lm, se = FALSE, size = .4, linetype = "dotted", fullrange = TRUE) +
+  xlim(0, 70) + 
+  ylim(0, 35)
 
 # turn into dynamic with plotly
 t2_dn_plot_dyn = ggplotly(t2_dn_plot) %>% layout(title = list(text = paste0('Nestedness by Degree Centrality', '<br>', '<sup>', '1920-1933', '</sup>')), xaxis = list(title = "Total Degree"), yaxis = list(title = "Nestedness"))
@@ -101,7 +107,9 @@ t2_en_plot = ggplot(t2_data, aes(x = evc, y = nestedness, color = `Node Type`)) 
   labs(title = "Nestedness by Eigenvector Centrality", subtitle = "1900-1919") +
   theme_classic(base_size = 12, base_family = "STIX") +
   scale_color_manual(breaks = c("Criminal", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
-  stat_smooth(method = lm, se = FALSE, size = .4, linetype = "dotted", fullrange = TRUE)
+  stat_smooth(method = lm, se = FALSE, size = .4, linetype = "dotted", fullrange = TRUE) +
+  xlim(0, 0.3) + 
+  ylim(0, 25)
 
 # turn into dynamic with plotly
 t2_en_plot_dyn = ggplotly(t2_en_plot) %>% layout(title = list(text = paste0('Nestedness by Eigenvector Centrality', '<br>', '<sup>', '1920-1933', '</sup>')), xaxis = list(title = "Eigenvector Centrality"), yaxis = list(title = "Nestedness"))
