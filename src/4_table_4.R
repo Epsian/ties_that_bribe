@@ -40,17 +40,21 @@ table(t1_data$class)
 # t1 law enforcement
 t1_le_edges = unlist(lapply(t1_data$ID[t1_data$law_enforcement == TRUE], get.edgeIDs, x=t1.l.g))
 t1_le_edges = t1_le_edges[!duplicated(t1_le_edges)]
-length(t1_le_edges)
+length(t1_le_edges) # how many edges
+(length(t1_le_edges) / length(t1.l.g%e%"na")) * 100 # percentage of edges
+
 
 # t1 politician
 t1_pol_edges = unlist(lapply(t1_data$ID[t1_data$politician == TRUE], get.edgeIDs, x=t1.l.g))
 t1_pol_edges = t1_pol_edges[!duplicated(t1_pol_edges)]
 length(t1_pol_edges)
+(length(t1_pol_edges) / length(t1.l.g%e%"na")) * 100
 
 # t1 non-state
 t1_ns_edges = unlist(lapply(t1_data$ID[t1_data$politician == FALSE & t1_data$law_enforcement == FALSE], get.edgeIDs, x=t1.l.g))
 t1_ns_edges = t1_ns_edges[!duplicated(t1_ns_edges)]
 length(t1_ns_edges)
+(length(t1_ns_edges) / length(t1.l.g%e%"na")) * 100
 
 ## Time 2 ####
 
@@ -67,24 +71,61 @@ table(t2_data$class)
 t2_le_edges = unlist(lapply(t2_data$ID[t2_data$law_enforcement == TRUE], get.edgeIDs, x=t2.l.g))
 t2_le_edges = t2_le_edges[!duplicated(t2_le_edges)]
 length(t2_le_edges)
+(length(t2_le_edges) / length(t2.l.g%e%"na")) * 100
 
 # t2 politician
 t2_pol_edges = unlist(lapply(t2_data$ID[t2_data$politician == TRUE], get.edgeIDs, x=t2.l.g))
 t2_pol_edges = t2_pol_edges[!duplicated(t2_pol_edges)]
 length(t2_pol_edges)
+(length(t2_pol_edges) / length(t2.l.g%e%"na")) * 100
 
 # t2 non-state
 t2_ns_edges = unlist(lapply(t2_data$ID[t2_data$politician == FALSE & t2_data$law_enforcement == FALSE], get.edgeIDs, x=t2.l.g))
 t2_ns_edges = t2_ns_edges[!duplicated(t2_ns_edges)]
 length(t2_ns_edges)
+(length(t2_ns_edges) / length(t2.l.g%e%"na")) * 100
 
 # group means ####
 
+## Time 1 ####
+
+### degree ####
+mean(t1_data[t1_data$'law_enforcement', 'degree'])
+mean(t1_data[t1_data$'politician', 'degree'])
+mean(t1_data[!(t1_data$'law_enforcement' | t1_data$'politician'), 'degree'])
+
+### eigenvector ####
+mean(t1_data[t1_data$'law_enforcement', 'evc'])
+mean(t1_data[t1_data$'politician', 'evc'])
+mean(t1_data[!(t1_data$'law_enforcement' | t1_data$'politician'), 'evc'])
+
+### nestedness ####
+mean(t1_data[t1_data$'law_enforcement', 'nestedness'])
+mean(t1_data[t1_data$'politician', 'nestedness'])
+mean(t1_data[!(t1_data$'law_enforcement' | t1_data$'politician'), 'nestedness'])
+
+## Time 2 ####
+
+### degree ####
+mean(t2_data[t2_data$'law_enforcement', 'degree'])
+mean(t2_data[t2_data$'politician', 'degree'])
+mean(t2_data[!(t2_data$'law_enforcement' | t2_data$'politician'), 'degree'])
+
+### eigenvector ####
+mean(t2_data[t2_data$'law_enforcement', 'evc'])
+mean(t2_data[t2_data$'politician', 'evc'])
+mean(t2_data[!(t2_data$'law_enforcement' | t2_data$'politician'), 'evc'])
+
+### nestedness ####
+mean(t2_data[t2_data$'law_enforcement', 'nestedness'])
+mean(t2_data[t2_data$'politician', 'nestedness'])
+mean(t2_data[!(t2_data$'law_enforcement' | t2_data$'politician'), 'nestedness'])
 
 
 
 
 
+# Pre- revision material -----------------------------------------------
 
 
 
@@ -93,11 +134,11 @@ length(t2_ns_edges)
 #### LE - NLI ####
 
 # Average degrees
-summary(t1.data[t1.data$'Law.Enforcement', 'Degree']) # Cops
-summary(t1.data[!t1.data$'Law.Enforcement', 'Degree']) # not cops
+summary(t1_data[t1_data$'law_enforcement', 'degree']) # Cops
+summary(t1_data[!t1_data$'law_enforcement', 'degree']) # not cops
 
-summary(t2.data[t2.data$'Law.Enforcement', 'Degree']) # Cops
-summary(t2.data[!t2.data$'Law.Enforcement', 'Degree']) # not cops
+summary(t2_data[t2_data$'law_enforcement', 'degree']) # Cops
+summary(t2_data[!t2_data$'law_enforcement', 'degree']) # not cops
 
 # Mean Geodesic
 # T1
