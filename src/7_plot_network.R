@@ -7,8 +7,8 @@ library(statnet)
 library(intergraph)
 library(visNetwork)
 library(htmlwidgets)
-library(ggplot2)
-library(GGally)
+library(ggraph)
+library(tidygraph)
 
 # add journal font
 library(showtext)
@@ -19,9 +19,6 @@ showtext_auto()
 t1.l.g = readRDS("./data/t1.l.g.rda")
 t2.l.g = readRDS("./data/t2.l.g.rda")
 
-t1_data = read.csv("./data/t1_data.csv", header = TRUE, stringsAsFactors = FALSE)
-t2_data = read.csv("./data/t2_data.csv", header = TRUE, stringsAsFactors = FALSE)
-
 t1.coords = readRDS("./vis/t1.plot.loc.rda")
 t2.coords = readRDS("./vis/t2.plot.loc.rda")
 
@@ -30,7 +27,64 @@ crim.col = "#cccccc"
 le.col = "#7c7c7c"
 pol.col = "#000000"
 
+# meta data for plotting ####
+
+# add in group data
+.t1_group = rep("Criminal", length(t1.l.g%v%"Full.Name"))
+.t1_group[t1.l.g%v%"Law.Enforcement"] = "Law Enforcement"
+.t1_group[t1.l.g%v%"Politician"] = "Politician"
+t1.l.g%v%"group" = .t1_group
+
+.t2_group = rep("Criminal", length(t2.l.g%v%"Full.Name"))
+.t2_group[t2.l.g%v%"Law.Enforcement"] = "Law Enforcement"
+.t2_group[t2.l.g%v%"Politician"] = "Politician"
+t2.l.g%v%"group" = .t2_group
+
+# add in size data
+.t1_size = log(t1.l.g%v%"nestedness", base = 1.2)
+.t1_size[.t1_size == 0] = 1
+.t1_size = .t1_size * 3
+t1.l.g%v%"size" = .t1_size
+
+.t2_size = log(t2.l.g%v%"nestedness", base = 1.2)
+.t2_size[.t2_size == 0] = 1
+.t2_size = .t2_size * 3
+t2.l.g%v%"size" = .t2_size
+
+# add in colors
+.t1_color = rep(crim.col, length(t1.l.g%v%"Full.Name"))
+.t1_color[t1.l.g%v%"Law.Enforcement"] = le.col
+.t1_color[t1.l.g%v%"Politician"] = pol.col
+t1.l.g%v%"color" = .t1_color
+
+.t2_color = rep(crim.col, length(t2.l.g%v%"Full.Name"))
+.t2_color[t2.l.g%v%"Law.Enforcement"] = le.col
+.t2_color[t2.l.g%v%"Politician"] = pol.col
+t2.l.g%v%"color" = .t2_color
+
+# blank labels
+t1.l.g%v%"label" = NA
+t2.l.g%v%"label" = NA
+
 # static plots for publication ####
+
+# convert to tidygraph
+tidy.t1.l.g = tidygraph::as_tbl_graph(intergraph::asIgraph(t1.l.g))
+tidy.t2.l.g = tidygraph::as_tbl_graph(intergraph::asIgraph(t2.l.g))
+
+# time 1
+ggraph(tidy.t1.l.g, layout = "kk") + 
+  geom_node_point(aes(size = size, color = color)) +
+  geom_edge_link() + 
+  theme_graph()
+
+
+
+
+
+
+
+
 
 t1.col = ifelse(t1_data$law_enforcement, le.col, crim.col)
 t1.col[t1_data$politician] = "#000000"
@@ -50,43 +104,27 @@ t1.plot = gplot(t1.l.g,
 
 
 
+
+
+
+ggraph(routes_tidy, layout = "graphopt") + 
+  geom_node_point() +
+  geom_edge_link(aes(width = weight), alpha = 0.8) + 
+  scale_edge_width(range = c(0.2, 2)) +
+  geom_node_text(aes(label = label), repel = TRUE) +
+  labs(edge_width = "Letters") +
+  theme_graph()
+
+
+
+
+
 # Interactive plots ####
 
 ## transform to vis network data ####
 
 t1.visnet = toVisNetworkData(intergraph::asIgraph(t1.l.g))
 t2.visnet = toVisNetworkData(intergraph::asIgraph(t2.l.g))
-
-## add in group data
-t1.visnet[["nodes"]]$group = "Criminal"
-t1.visnet[["nodes"]][t1.visnet[["nodes"]]$Law.Enforcement == TRUE, "group"] = "Law Enforcement"
-t1.visnet[["nodes"]][t1.visnet[["nodes"]]$Politician == TRUE, "group"] = "Politician"
-
-t2.visnet[["nodes"]]$group = "Criminal"
-t2.visnet[["nodes"]][t2.visnet[["nodes"]]$Law.Enforcement == TRUE, "group"] = "Law Enforcement"
-t2.visnet[["nodes"]][t2.visnet[["nodes"]]$Politician == TRUE, "group"] = "Politician"
-
-# add in size data
-t1.visnet[["nodes"]]$size = log(t1.visnet[["nodes"]]$nestedness, base = 1.2)
-t1.visnet[["nodes"]]$size[t1.visnet[["nodes"]]$size == 0] = 1
-t1.visnet[["nodes"]]$size = t1.visnet[["nodes"]]$size * 3
-
-t2.visnet[["nodes"]]$size = log(t2.visnet[["nodes"]]$nestedness, base = 1.2)
-t2.visnet[["nodes"]]$size[t2.visnet[["nodes"]]$size == 0] = 1
-t2.visnet[["nodes"]]$size = t2.visnet[["nodes"]]$size * 3
-
-# add in colors
-t1.visnet[["nodes"]]$color = crim.col
-t1.visnet[["nodes"]]$color[t1.visnet[["nodes"]]$Law.Enforcement] = le.col
-t1.visnet[["nodes"]]$color[t1.visnet[["nodes"]]$Politician] = pol.col
-
-t2.visnet[["nodes"]]$color = crim.col
-t2.visnet[["nodes"]]$color[t2.visnet[["nodes"]]$Law.Enforcement] = le.col
-t2.visnet[["nodes"]]$color[t2.visnet[["nodes"]]$Politician] = pol.col
-
-# blank labels
-t1.visnet[["nodes"]]$label = NA
-t2.visnet[["nodes"]]$label = NA
 
 # add in hover text
 t1.visnet[["nodes"]]$title = paste0("<b>Node Metrics</b>", "<br>",
