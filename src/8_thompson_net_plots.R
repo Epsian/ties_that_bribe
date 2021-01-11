@@ -8,6 +8,8 @@ library(ggthemes)
 library(plotly)
 library(htmlwidgets)
 library(ggpubr)
+library(igraph)
+library(statnet)
 
 # add journal font
 library(showtext)
@@ -89,6 +91,7 @@ multidot
 ggsave("./vis/thompson_plots/dotplot.pdf", multidot, scale = 1, width = 7.18, height = 4)
 
 # make egonet ####
+# --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # get node ID of thompson
 .thompson_id = t2_data[t2_data$vertex_name == "Thompson, Big Bill", "ID"]
@@ -103,6 +106,29 @@ ggsave("./vis/thompson_plots/dotplot.pdf", multidot, scale = 1, width = 7.18, he
 # make a network on just thompson
 thompson_net = t2.l.g
 thompson_net = delete.vertices(thompson_net, .toremove)
+
+
+
+
+
+
+
+thompson_igraph = intergraph::asIgraph(t2.l.g)
+thompson_igraph = igraph::set_vertex_attr(thompson_igraph, "name", value = igraph::get.vertex.attribute(thompson_igraph, "ID"))
+
+# are node ids persevered?
+igraph::vertex_attr(thompson_igraph, "vertex.names", .thompson_id)
+# yes
+
+tblock = cohesive_blocks(thompson_igraph)
+
+blocks(tblock)
+igraph::graphs_from_cohesive_blocks(tblock, thompson_igraph)
+
+plot(tblock, thompson_igraph, size = 5)
+plot_hierarchy(tblock, thompson_igraph)
+
+
 
 # make color vector
 .color = rep(crim.col, length(thompson_net%v%"vertex.names"))
