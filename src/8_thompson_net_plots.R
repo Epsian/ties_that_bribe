@@ -24,14 +24,11 @@ pol.col = "#000000"
 .static_height = 650
 
 # load data
-t1_data = read.csv("./data/t1_data.csv", header = TRUE, stringsAsFactors = FALSE)
 t2_data = read.csv("./data/t2_data.csv", header = TRUE, stringsAsFactors = FALSE)
+t2.l.g = readRDS("./data/t2.l.g.rda")
+t2.coords = readRDS("./vis/t2.plot.loc.rda")
 
 # make classification column
-t1_data$`Node Type` = "Non-State"
-t1_data[t1_data$law_enforcement == TRUE, "Node Type"] = "Law Enforcement"
-t1_data[t1_data$politician == TRUE, "Node Type"] = "Politician"
-
 t2_data$`Node Type` = "Non-State"
 t2_data[t2_data$law_enforcement == TRUE, "Node Type"] = "Law Enforcement"
 t2_data[t2_data$politician == TRUE, "Node Type"] = "Politician"
@@ -92,6 +89,59 @@ multidot
 ggsave("./vis/thompson_plots/dotplot.pdf", multidot, scale = 1, width = 7.18, height = 4)
 
 # make egonet ####
+
+# get node ID of thompson
+.thompson_id = t2_data[t2_data$vertex_name == "Thompson, Big Bill", "ID"]
+
+# get just nodes connected to thompson
+.thompson_neighborhood = c(get.neighborhood(t2.l.g, .thompson_id, "combined"), .thompson_id)
+
+# get a list of all nodes not connected to thompson
+.toremove = t2_data$ID
+.toremove = t2_data$ID[!(.toremove %in% .thompson_neighborhood)]
+
+# make a network on just thompson
+thompson_net = t2.l.g
+thompson_net = delete.vertices(thompson_net, .toremove)
+
+# make color vector
+.color = rep(crim.col, length(thompson_net%v%"vertex.names"))
+.color[thompson_net%v%"Law.Enforcement"] = le.col
+.color[thompson_net%v%"Politician"] = pol.col
+
+# made sides vector
+.sides = rep(100, length(thompson_net%v%"vertex.names"))
+.sides[thompson_net%v%"vertex.names" == "Thompson, Big Bill"] = 4
+
+# plot and save
+pdf("./vis/thompson_plots/neighborhood.pdf")
+gplot(thompson_net,
+      gmode = "graph",
+      vertex.col = .color,
+      vertex.cex = log(thompson_net%v%"nestedness", base = 5),
+      coord = t2.coords[.thompson_neighborhood,],
+      pad = 5,
+      vertex.sides = .sides,
+      edge.col = "dark grey")
+dev.off()
+
+
+
+svg(filename = "time1_svg.svg",
+    width = 10,
+    height = 10,
+    bg = NA)
+
+t1.plot = gplot(t1.l.g,
+                gmode = "graph",
+                vertex.col = t1.col,
+                edge.col = t1.l.g%e%"color",
+                coord = t1.coords
+)
+
+
+
+
 
 
 
