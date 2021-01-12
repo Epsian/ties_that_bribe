@@ -7,8 +7,6 @@ library(statnet)
 library(intergraph)
 library(visNetwork)
 library(htmlwidgets)
-library(ggraph)
-library(tidygraph)
 
 # add journal font
 library(showtext)
@@ -68,15 +66,61 @@ t2.l.g%v%"label" = NA
 
 # static plots for publication ####
 
-# convert to tidygraph
-tidy.t1.l.g = tidygraph::as_tbl_graph(intergraph::asIgraph(t1.l.g))
-tidy.t2.l.g = tidygraph::as_tbl_graph(intergraph::asIgraph(t2.l.g))
+## time 1 ####
 
-# time 1
-ggraph(tidy.t1.l.g, layout = "kk") + 
-  geom_node_point(aes(size = size, color = color)) +
-  geom_edge_link() + 
-  theme_graph()
+# set default color of edges as non-state color
+t1.l.g%e%"color" = rep(crim.col, length(t1.l.g%v%"vertex.names"))
+
+# get all edges connected to law enforcement
+.le_edges = unique(unlist(sapply(as.integer(t1.l.g%v%"ID")[t1.l.g%v%"Law.Enforcement"], function(x) get.edgeIDs(t1.l.g, x))))
+# set all those that are connected to law enforcement as le color
+set.edge.value(t1.l.g, "color", le.col, .le_edges)
+
+# get all edges connected to politicains
+.pol_edges = unique(unlist(sapply(as.integer(t1.l.g%v%"ID")[t1.l.g%v%"Politician"], function(x) get.edgeIDs(t1.l.g, x))))
+# set all those that are connected to politicians as politicain color
+set.edge.value(t1.l.g, "color", pol.col, .pol_edges)
+
+# plot and save
+pdf("./vis/network_plots/t1_network.pdf")
+plot.network(t1.l.g,
+             vertex.col = t1.l.g%v%"color",
+             vertex.cex = t1.l.g%v%"size" / 40,
+             vertex.lwd = 0.25,
+             vertex.border = "black",
+             coord = t1.coords,
+             pad = 5,
+             edge.lwd = .01,
+             edge.col = t1.l.g%e%"color")
+dev.off()
+
+## Time 2 ####
+
+# set default color of edges as non-state color
+t2.l.g%e%"color" = rep(crim.col, length(t2.l.g%v%"vertex.names"))
+
+# get all edges connected to law enforcement
+.le_edges = unique(unlist(sapply(as.integer(t2.l.g%v%"ID")[t2.l.g%v%"Law.Enforcement"], function(x) get.edgeIDs(t2.l.g, x))))
+# set all those that are connected to law enforcement as le color
+set.edge.value(t2.l.g, "color", le.col, .le_edges)
+
+# get all edges connected to politicains
+.pol_edges = unique(unlist(sapply(as.integer(t2.l.g%v%"ID")[t2.l.g%v%"Politician"], function(x) get.edgeIDs(t2.l.g, x))))
+# set all those that are connected to politicians as politicain color
+set.edge.value(t2.l.g, "color", pol.col, .pol_edges)
+
+# plot and save
+pdf("./vis/network_plots/t2_network.pdf")
+plot.network(t2.l.g,
+             vertex.col = t2.l.g%v%"color",
+             vertex.cex = t2.l.g%v%"size" / 40,
+             vertex.lwd = 0.25,
+             vertex.border = "black",
+             coord = t2.coords,
+             pad = 5,
+             edge.lwd = .01,
+             edge.col = t2.l.g%e%"color")
+dev.off()
 
 
 
@@ -86,34 +130,9 @@ ggraph(tidy.t1.l.g, layout = "kk") +
 
 
 
-t1.col = ifelse(t1_data$law_enforcement, le.col, crim.col)
-t1.col[t1_data$politician] = "#000000"
 
 
 
-t1.plot = gplot(t1.l.g,
-                gmode = "graph",
-                vertex.col = t1.col,
-                vertex.cex = log(t1_data$nestedness) + 1,
-                edge.col = "grey"
-                #coord = t1.coords
-)
-
-
-
-
-
-
-
-
-
-ggraph(routes_tidy, layout = "graphopt") + 
-  geom_node_point() +
-  geom_edge_link(aes(width = weight), alpha = 0.8) + 
-  scale_edge_width(range = c(0.2, 2)) +
-  geom_node_text(aes(label = label), repel = TRUE) +
-  labs(edge_width = "Letters") +
-  theme_graph()
 
 
 
@@ -153,19 +172,4 @@ t2.interactive = visNetwork(nodes = t2.visnet$nodes, edges = t2.visnet$edges) %>
   visPhysics(solver = "forceAtlas2Based", timestep = 0.35)
 
 saveWidget(t2.interactive, "t2_interactive_network.html")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
