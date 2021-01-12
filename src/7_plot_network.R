@@ -78,8 +78,23 @@ set.edge.value(t1.l.g, "color", le.col, .le_edges)
 
 # get all edges connected to politicains
 .pol_edges = unique(unlist(sapply(as.integer(t1.l.g%v%"ID")[t1.l.g%v%"Politician"], function(x) get.edgeIDs(t1.l.g, x))))
-# set all those that are connected to politicians as politicain color
+# set all those that are connected to politicians as politician color
 set.edge.value(t1.l.g, "color", pol.col, .pol_edges)
+
+### reorder all the edges ####
+
+# get the edges and re-order
+t1.edgelist = as.edgelist(t1.l.g, attrname = "color")
+t1.edgelist = rbind(t1.edgelist[t1.edgelist[, 3] == crim.col, ], t1.edgelist[t1.edgelist[, 3] == le.col, ], t1.edgelist[t1.edgelist[, 3] == pol.col, ])
+
+# get all edge IDs and delete all current edges
+.all_t1_edges = unique(unlist(sapply(as.integer(t1.l.g%v%"ID"), function(x) get.edgeIDs(t1.l.g, x))))
+delete.edges(t1.l.g, .all_t1_edges)
+
+# re-add edges
+add.edges(t1.l.g, tail = t1.edgelist[,1], head =  t1.edgelist[,2], names.eval = "color", vals.eval = t1.edgelist[,3])
+
+### plot ####
 
 # plot and save
 pdf("./vis/network_plots/t1_network.pdf")
@@ -106,8 +121,23 @@ set.edge.value(t2.l.g, "color", le.col, .le_edges)
 
 # get all edges connected to politicains
 .pol_edges = unique(unlist(sapply(as.integer(t2.l.g%v%"ID")[t2.l.g%v%"Politician"], function(x) get.edgeIDs(t2.l.g, x))))
-# set all those that are connected to politicians as politicain color
+# set all those that are connected to politicians as politician color
 set.edge.value(t2.l.g, "color", pol.col, .pol_edges)
+
+### reorder all the edges ####
+
+# get the edges and re-order
+t2.edgelist = as.edgelist(t2.l.g, attrname = "color")
+t2.edgelist = rbind(t2.edgelist[t2.edgelist[, 3] == crim.col, ], t2.edgelist[t2.edgelist[, 3] == le.col, ], t2.edgelist[t2.edgelist[, 3] == pol.col, ])
+
+# get all edge IDs and delete all current edges
+.all_t2_edges = unique(unlist(sapply(as.integer(t2.l.g%v%"ID"), function(x) get.edgeIDs(t2.l.g, x))))
+delete.edges(t2.l.g, .all_t2_edges)
+
+# re-add edges
+add.edges(t2.l.g, tail = t2.edgelist[,1], head =  t2.edgelist[,2], names.eval = "color", vals.eval = t2.edgelist[,3])
+
+### plot ####
 
 # plot and save
 pdf("./vis/network_plots/t2_network.pdf")
@@ -121,22 +151,6 @@ plot.network(t2.l.g,
              edge.lwd = .01,
              edge.col = t2.l.g%e%"color")
 dev.off()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Interactive plots ####
 
