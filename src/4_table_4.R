@@ -94,15 +94,27 @@ mean(t1_data[t1_data$'law_enforcement', 'degree'])
 mean(t1_data[t1_data$'politician', 'degree'])
 mean(t1_data[!(t1_data$'law_enforcement' | t1_data$'politician'), 'degree'])
 
+sd(t1_data[t1_data$'law_enforcement', 'degree'])
+sd(t1_data[t1_data$'politician', 'degree'])
+sd(t1_data[!(t1_data$'law_enforcement' | t1_data$'politician'), 'degree'])
+
 ### eigenvector ####
 mean(t1_data[t1_data$'law_enforcement', 'evc'])
 mean(t1_data[t1_data$'politician', 'evc'])
 mean(t1_data[!(t1_data$'law_enforcement' | t1_data$'politician'), 'evc'])
 
+sd(t1_data[t1_data$'law_enforcement', 'evc'])
+sd(t1_data[t1_data$'politician', 'evc'])
+sd(t1_data[!(t1_data$'law_enforcement' | t1_data$'politician'), 'evc'])
+
 ### nestedness ####
 mean(t1_data[t1_data$'law_enforcement', 'nestedness'])
 mean(t1_data[t1_data$'politician', 'nestedness'])
 mean(t1_data[!(t1_data$'law_enforcement' | t1_data$'politician'), 'nestedness'])
+
+sd(t1_data[t1_data$'law_enforcement', 'nestedness'])
+sd(t1_data[t1_data$'politician', 'nestedness'])
+sd(t1_data[!(t1_data$'law_enforcement' | t1_data$'politician'), 'nestedness'])
 
 ## Time 2 ####
 
@@ -111,17 +123,27 @@ mean(t2_data[t2_data$'law_enforcement', 'degree'])
 mean(t2_data[t2_data$'politician', 'degree'])
 mean(t2_data[!(t2_data$'law_enforcement' | t2_data$'politician'), 'degree'])
 
+sd(t2_data[t2_data$'law_enforcement', 'degree'])
+sd(t2_data[t2_data$'politician', 'degree'])
+sd(t2_data[!(t2_data$'law_enforcement' | t2_data$'politician'), 'degree'])
+
 ### eigenvector ####
 mean(t2_data[t2_data$'law_enforcement', 'evc'])
 mean(t2_data[t2_data$'politician', 'evc'])
 mean(t2_data[!(t2_data$'law_enforcement' | t2_data$'politician'), 'evc'])
+
+sd(t2_data[t2_data$'law_enforcement', 'evc'])
+sd(t2_data[t2_data$'politician', 'evc'])
+sd(t2_data[!(t2_data$'law_enforcement' | t2_data$'politician'), 'evc'])
 
 ### nestedness ####
 mean(t2_data[t2_data$'law_enforcement', 'nestedness'])
 mean(t2_data[t2_data$'politician', 'nestedness'])
 mean(t2_data[!(t2_data$'law_enforcement' | t2_data$'politician'), 'nestedness'])
 
-
+sd(t2_data[t2_data$'law_enforcement', 'nestedness'])
+sd(t2_data[t2_data$'politician', 'nestedness'])
+sd(t2_data[!(t2_data$'law_enforcement' | t2_data$'politician'), 'nestedness'])
 
 
 
