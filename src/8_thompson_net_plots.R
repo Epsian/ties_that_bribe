@@ -33,6 +33,34 @@ t2_data$`Node Type` = "Non-State"
 t2_data[t2_data$law_enforcement == TRUE, "Node Type"] = "Law Enforcement"
 t2_data[t2_data$politician == TRUE, "Node Type"] = "Politician"
 
+# find percentile of Big Bill for metrics ####
+
+## degree ####
+
+# get big bill degree
+t2_data[t2_data$vertex_name == "Thompson, Big Bill", "degree"]
+# get estiamte
+quantile(t2_data$degree, c(0, .25, .50, .70, .75, 1))
+# find exact
+degree_percentile = ecdf(t2_data$degree)(7) # bill has a degree of 7
+# 73 percentile
+
+## evc ####
+
+# get big bill evc
+t2_data[t2_data$vertex_name == "Thompson, Big Bill", "evc"]
+# find exact
+ecdf(t2_data$evc)(0.02628943) # bill has an evc of 0.02628943
+# 84 percentile
+
+## nestedness ####
+
+# get big bill nestedness
+t2_data[t2_data$vertex_name == "Thompson, Big Bill", "nestedness"]
+# find exact
+ecdf(t2_data$nestedness)(4) # bill has a nestedness of 4
+# 76 percentile
+
 # make dotplots ####
 
 # make df to hold results
@@ -57,6 +85,7 @@ degree_plot = ggplot(bill_melt[bill_melt$variable == "degree" & bill_melt$group 
   scale_color_manual(breaks = c("Non-State", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
   labs(title="Degree", subtitle=NULL, color = "Node Type") + xlab(NULL) + ylab("Value") +
   geom_hline(yintercept = 7, size = 1) + # 7 is bill's degree
+  #labs(caption = "Thompson's Degree is in the 73rd Percentile") +
   theme_classic(base_size = 12, base_family = "STIX") + theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) + coord_flip()
 
 degree_plot
@@ -68,6 +97,7 @@ evc_plot = ggplot(bill_melt[bill_melt$variable == "evc" & bill_melt$group != "Th
   scale_color_manual(breaks = c("Non-State", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
   labs(title="Eigenvector", subtitle=NULL, color = "Node Type") + xlab(NULL) + ylab("Value") +
   geom_hline(yintercept = 0.026289433, size = 1) + # 0.026289433 is bill's evc
+  #labs(caption = "Thompson's Eigenvector is in the 84th Percentile") +
   theme_classic(base_size = 12, base_family = "STIX") + theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) + coord_flip()
 
 evc_plot
@@ -79,6 +109,7 @@ nest_plot = ggplot(bill_melt[bill_melt$variable == "nestedness" & bill_melt$grou
   scale_color_manual(breaks = c("Non-State", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
   labs(title="Nestedness", subtitle=NULL, color = "Node Type") + xlab(NULL) + ylab("Value") +
   geom_hline(yintercept = 4, size = 1) + # 4 is bill's nestedness
+  #labs(caption = "Thompson's Nestedness is in the 76th Percentile") +
   theme_classic(base_size = 12, base_family = "STIX") + theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) + coord_flip()
 
 nest_plot
