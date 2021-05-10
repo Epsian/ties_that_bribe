@@ -9,7 +9,7 @@ library(nattswap)
 library(ggplot2)
 
 library(showtext)
-font_add("STIX", "P:/pCloud Sync/Projects/school/QP/state_sims/STIX2Text-Regular.otf")
+font_add("STIX", "./docs/STIX2Text-Regular.otf")
 showtext_auto() 
 
 # show text does not work well in Rstudio viewer
@@ -22,6 +22,13 @@ t1_le = readRDS("./data/sims/t1/le/t1_sim_sigs_Law_Enforcement.rda")
 
 t2_pol = readRDS("./data/sims/t2/pol/t2_sim_sigs_Politician.rda")
 t2_le = readRDS("./data/sims/t2/le/t2_sim_sigs_Law_Enforcement.rda")
+
+# make x axis settings list ####
+xaxis_settings = list(
+  "degree" = c(0, 25),
+  "evc" = c(0, .1),
+  "nestedness" = c(0,8)
+)
 
 # make plots ####
 
