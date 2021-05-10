@@ -10,7 +10,7 @@ library(htmlwidgets)
 
 # add journal font
 library(showtext)
-font_add(family = "STIX", regular = "P:/pCloud Sync/Projects/school/QP/state_sims/STIX2Text-Regular.otf")
+font_add(family = "STIX", regular = "./docs/STIX2Text-Regular.otf")
 showtext_auto() 
 
 # dot colors
@@ -69,7 +69,7 @@ t1_en_plot = ggplot(t1_data, aes(x = evc, y = nestedness, color = `Node Type`)) 
   scale_color_manual(breaks = c("Non-State", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
   stat_smooth(method = lm, se = FALSE, size = .4, linetype = "dotted", fullrange = TRUE) +
   xlim(0, 0.3) + 
-  ylim(0, 25)
+  ylim(0, 35)
 
 # turn into dynamic with plotly
 t1_en_plot_dyn = ggplotly(t1_en_plot) %>% layout(title = list(text = paste0('Nestedness by Eigenvector Centrality', '<br>', '<sup>', '1900-1919', '</sup>')), xaxis = list(title = "Eigenvector Centrality"), yaxis = list(title = "Nestedness"))
@@ -109,7 +109,7 @@ t2_en_plot = ggplot(t2_data, aes(x = evc, y = nestedness, color = `Node Type`)) 
   scale_color_manual(breaks = c("Non-State", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
   stat_smooth(method = lm, se = FALSE, size = .4, linetype = "dotted", fullrange = TRUE) +
   xlim(0, 0.3) + 
-  ylim(0, 25)
+  ylim(0, 35)
 
 # turn into dynamic with plotly
 t2_en_plot_dyn = ggplotly(t2_en_plot) %>% layout(title = list(text = paste0('Nestedness by Eigenvector Centrality', '<br>', '<sup>', '1920-1933', '</sup>')), xaxis = list(title = "Eigenvector Centrality"), yaxis = list(title = "Nestedness"))
