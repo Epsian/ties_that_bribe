@@ -8,6 +8,7 @@ library(ggthemes)
 library(plotly)
 library(htmlwidgets)
 library(ggpubr)
+library(statnet)
 
 # add journal font
 library(showtext)
@@ -42,7 +43,7 @@ t2_data[t2_data$vertex_name == "Thompson, Big Bill", "degree"]
 # get estiamte
 quantile(t2_data$degree, c(0, .25, .50, .70, .75, 1))
 # find exact
-degree_percentile = ecdf(t2_data$degree)(7) # bill has a degree of 7
+.degree_percentile = ecdf(t2_data$degree)(7) # bill has a degree of 7
 # 73 percentile
 
 ## evc ####
@@ -50,7 +51,7 @@ degree_percentile = ecdf(t2_data$degree)(7) # bill has a degree of 7
 # get big bill evc
 t2_data[t2_data$vertex_name == "Thompson, Big Bill", "evc"]
 # find exact
-ecdf(t2_data$evc)(0.02628943) # bill has an evc of 0.02628943
+.evc_percentile = ecdf(t2_data$evc)(0.02628943) # bill has an evc of 0.02628943
 # 84 percentile
 
 ## nestedness ####
@@ -58,7 +59,7 @@ ecdf(t2_data$evc)(0.02628943) # bill has an evc of 0.02628943
 # get big bill nestedness
 t2_data[t2_data$vertex_name == "Thompson, Big Bill", "nestedness"]
 # find exact
-ecdf(t2_data$nestedness)(4) # bill has a nestedness of 4
+.nestedness_percentile = ecdf(t2_data$nestedness)(4) # bill has a nestedness of 4
 # 76 percentile
 
 # make dotplots ####
@@ -67,13 +68,13 @@ ecdf(t2_data$nestedness)(4) # bill has a nestedness of 4
 billdf = data.frame("group" = c("Thompson", "Law Enforcement", "Politician", "Non-State"), stringsAsFactors = FALSE)
 
 # degree
-billdf$degree = c(t2_data$degree[t2_data$vertex_name == "Thompson, Big Bill"], mean(t2_data$degree[t2_data$law_enforcement]), mean(t2_data$degree[t2_data$politician]), mean(t2_data$degree[!(t2_data$politician | t2_data$law_enforcement)]))
+billdf$degree = c(t2_data$degree[t2_data$vertex_name == "Thompson, Big Bill"], median(t2_data$degree[t2_data$law_enforcement]), median(t2_data$degree[t2_data$politician]), median(t2_data$degree[!(t2_data$politician | t2_data$law_enforcement)]))
 
 # eigenvectors
-billdf$evc = c(t2_data$evc[t2_data$vertex_name == "Thompson, Big Bill"], mean(t2_data$evc[t2_data$law_enforcement]), mean(t2_data$evc[t2_data$politician]), mean(t2_data$evc[!(t2_data$politician | t2_data$law_enforcement)]))
+billdf$evc = c(t2_data$evc[t2_data$vertex_name == "Thompson, Big Bill"], median(t2_data$evc[t2_data$law_enforcement]), median(t2_data$evc[t2_data$politician]), median(t2_data$evc[!(t2_data$politician | t2_data$law_enforcement)]))
 
 # nestedness
-billdf$nestedness = c(t2_data$nestedness[t2_data$vertex_name == "Thompson, Big Bill"], mean(t2_data$nestedness[t2_data$law_enforcement]), mean(t2_data$nestedness[t2_data$politician]), mean(t2_data$nestedness[!(t2_data$politician | t2_data$law_enforcement)]))
+billdf$nestedness = c(t2_data$nestedness[t2_data$vertex_name == "Thompson, Big Bill"], median(t2_data$nestedness[t2_data$law_enforcement]), median(t2_data$nestedness[t2_data$politician]), median(t2_data$nestedness[!(t2_data$politician | t2_data$law_enforcement)]))
 
 # reshape df
 bill_melt = reshape2::melt(billdf)
@@ -124,12 +125,19 @@ ggsave("./vis/thompson_plots/dotplot.pdf", multidot, scale = 1, width = 7.18, he
 # get node ID of thompson
 .thompson_id = t2_data[t2_data$vertex_name == "Thompson, Big Bill", "ID"]
 
+# get id of capone for later removal
+.capone_id = t2_data[t2_data$vertex_name == "Capone, Al", "ID"]
+
 # get just nodes connected to thompson
 .thompson_neighborhood = c(get.neighborhood(t2.l.g, .thompson_id, "combined"), .thompson_id)
 
-# get a list of all nodes not connected to thompson
+# get all nodes in a 2step neighborhood from thompson
+.thompson_2step = gapply(t2.l.g, c(1,2), 1:937, FUN = function(x) x, mode = "graph", distance = 2)[[.thompson_id]]
+
+# get a list of all nodes not in 2step neighborhood from thompson
 .toremove = t2_data$ID
-.toremove = t2_data$ID[!(.toremove %in% .thompson_neighborhood)]
+.toremove = t2_data$ID[!(.toremove %in% .thompson_2step)]
+.toremove = c(.toremove, .capone_id)
 
 # make a network on just thompson
 thompson_net = t2.l.g
