@@ -28,6 +28,8 @@ pol.col = "#000000"
 t2_data = read.csv("./data/t2_data.csv", header = TRUE, stringsAsFactors = FALSE)
 t2.l.g = readRDS("./data/t2.l.g.rda")
 t2.coords = readRDS("./vis/t2.plot.loc.rda")
+man_plot = readRDS("./vis/thompson_plots/man_plot.rda")
+t2_cohesive = readRDS("./data/t2_cohesive_blocks.rda")
 
 # make classification column
 t2_data$`Node Type` = "Non-State"
@@ -84,7 +86,7 @@ degree_plot = ggplot(bill_melt[bill_melt$variable == "degree" & bill_melt$group 
   geom_segment(aes(x=variable, xend=variable, y=min(value), yend=max(value)), linetype="dashed", size=0.1) +   # Draw dashed lines
   geom_point(aes(col=group), size=5) +   # Draw points
   scale_color_manual(breaks = c("Non-State", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
-  labs(title="Degree", subtitle=NULL, color = "Node Type") + xlab(NULL) + ylab("Value") +
+  labs(title="Degree", subtitle=NULL, color = "Node Type") + xlab(NULL) + ylab("Median Value") +
   geom_hline(yintercept = 7, size = 1) + # 7 is bill's degree
   #labs(caption = "Thompson's Degree is in the 73rd Percentile") +
   theme_classic(base_size = 12, base_family = "STIX") + theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) + coord_flip()
@@ -96,7 +98,7 @@ evc_plot = ggplot(bill_melt[bill_melt$variable == "evc" & bill_melt$group != "Th
   geom_segment(aes(x=variable, xend=variable, y=min(value), yend=0.026289433), linetype="dashed", size=0.1) +   # Draw dashed lines
   geom_point(aes(col=group), size=5) +   # Draw points
   scale_color_manual(breaks = c("Non-State", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
-  labs(title="Eigenvector", subtitle=NULL, color = "Node Type") + xlab(NULL) + ylab("Value") +
+  labs(title="Eigenvector", subtitle=NULL, color = "Node Type") + xlab(NULL) + ylab("Median Value") +
   geom_hline(yintercept = 0.026289433, size = 1) + # 0.026289433 is bill's evc
   #labs(caption = "Thompson's Eigenvector is in the 84th Percentile") +
   theme_classic(base_size = 12, base_family = "STIX") + theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) + coord_flip()
@@ -108,7 +110,7 @@ nest_plot = ggplot(bill_melt[bill_melt$variable == "nestedness" & bill_melt$grou
   geom_segment(aes(x=variable, xend=variable, y=min(value), yend=max(value)), linetype="dashed", size=0.1) +   # Draw dashed lines
   geom_point(aes(col=group), size=5) +   # Draw points
   scale_color_manual(breaks = c("Non-State", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
-  labs(title="Nestedness", subtitle=NULL, color = "Node Type") + xlab(NULL) + ylab("Value") +
+  labs(title="Nestedness", subtitle=NULL, color = "Node Type") + xlab(NULL) + ylab("Median Value") +
   geom_hline(yintercept = 4, size = 1) + # 4 is bill's nestedness
   #labs(caption = "Thompson's Nestedness is in the 76th Percentile") +
   theme_classic(base_size = 12, base_family = "STIX") + theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) + coord_flip()
@@ -136,8 +138,7 @@ ggsave("./vis/thompson_plots/dotplot.pdf", multidot, scale = 1, width = 7.18, he
 
 # get a list of all nodes not in 2step neighborhood from thompson
 .toremove = t2_data$ID
-.toremove = t2_data$ID[!(.toremove %in% .thompson_2step)]
-.toremove = c(.toremove, .capone_id)
+.toremove = t2_data$ID[!(.toremove %in% .thompson_neighborhood)]
 
 # make a network on just thompson
 thompson_net = t2.l.g
@@ -158,24 +159,80 @@ gplot(thompson_net,
       gmode = "graph",
       vertex.col = .color,
       vertex.cex = log(thompson_net%v%"nestedness", base = 5),
-      coord = t2.coords[.thompson_neighborhood,],
+      coord = man_plot,
       pad = 5,
       vertex.sides = .sides,
       edge.col = "dark grey")
 dev.off()
 
+# find nest info to draw on plot ####
+
+# node names plot
+gplot(thompson_net,
+      gmode = "graph",
+      vertex.col = .color,
+      vertex.cex = log(thompson_net%v%"nestedness", base = 5),
+      label = thompson_net%v%"vertex.names",
+      coord = man_plot,
+      pad = 5,
+      vertex.sides = .sides,
+      edge.col = "dark grey")
 
 
-svg(filename = "time1_svg.svg",
-    width = 10,
-    height = 10,
-    bg = NA)
+# get all the blocks (cohesive subgroups) from prohibition
+t2_blocks = igraph::blocks(t2_cohesive)
 
-t1.plot = gplot(t1.l.g,
-                gmode = "graph",
-                vertex.col = t1.col,
-                edge.col = t1.l.g%e%"color",
-                coord = t1.coords
-)
+# get node ids for all in thompson ego net
+ego_ids = thompson_net%v%"ID"
+name_key = c("Capone, Al" = 131, "Crowe, Robert E." = 217, "Jackson, Dan" =  433, "Lundin, Fred" = 534, "Saltis, Polack Joe" = 781, "Tennes, Mont" = 876, "Thompson, Big Bill" = 878, "Torrio, Johnny the Fox" = 883)
+
+# sbuset to just blocks that have nodes from thompson's ego net
+ego_blocks = lapply(t2_blocks, function(block){
+  
+  # test if this block contains any nodes with IDs matching thompson's ego net
+  thompson_ego_present = any(block %in% ego_ids)
+  
+  # if so keep the block, else mark for deletion
+  if(thompson_ego_present){return(block)} else {
+    return(NULL)
+  }
+})
+
+# delete all those that are NULL
+ego_blocks[sapply(ego_blocks, is.null)] = NULL
+
+# replace numbers with names for easy plotting
+string_blocks = lapply(ego_blocks, function(block){
+  
+  # for every name in thompson ego net, replace thier numbers
+  for(i in 1:length(name_key)){
+    
+    # simplify block into character vector
+    block = as.character(block)
+    
+    # replace numbers with names for neighborhood nodes
+    block[block == name_key[i]] = names(name_key[i])
+    
+  }
+  
+  # keep only names
+  block = block[!grepl("^\\d", block, perl = TRUE)]
+  
+  # collapse into single strings
+  block = paste0(block, collapse = "--")
+  
+  # return
+  return(block)
+})
+
+# get a list of unique blocks for drawing
+table(unlist(string_blocks))
+
+# split nests by actor for text
+capone_blocks = string_blocks[sapply(string_blocks, function(block){"Capone, Al" %in% block})]
+
+
+
+
 
 
