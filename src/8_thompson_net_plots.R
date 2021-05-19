@@ -231,8 +231,22 @@ table(unlist(string_blocks))
 # split nests by actor for text
 capone_blocks = string_blocks[sapply(string_blocks, function(block){"Capone, Al" %in% block})]
 
+# checks ####
 
+# see how many blocks thompson is in
+table(sapply(t2_blocks, function(x){878 %in% x}))
 
+# see those nests
+thompson_blocks = t2_blocks[sapply(t2_blocks, function(x){878 %in% x})]
 
+# See if thompson ego net is all present in each nest
+lapply(thompson_blocks, function(x){
+  
+  present = name_key %in% x
+  names(present) = names(name_key)
+  
+  return(present)
+  
+  })
 
 
