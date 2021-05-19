@@ -39,18 +39,18 @@ t2_xaxis_settings = list(
 # make plots ####
 
 pdf(file="./vis/histogram/t1_pol.pdf", height = 2.639, width = 13.889)
-nattswap_compare(t1_pol, c("degree", "evc", "nestedness"), "Politician", font_family = "STIX", yaxis = c(0, 1250), xaxis = t1_xaxis_settings, bin_num = 60)
+nattswap_compare(t1_pol, c("degree", "evc", "nestedness"), "Politician", font_family = "STIX", yaxis = c(0, 1250), xaxis = t1_xaxis_settings, bin_num = 70)
 dev.off()
 
 pdf(file="./vis/histogram/t1_le.pdf", width = 13.889, height = 2.639)
-nattswap_compare(t1_le, c("degree", "evc", "nestedness"), "Law.Enforcement", font_family = "STIX", yaxis = c(0, 1250), xaxis = t1_xaxis_settings, bin_num = 60)
+nattswap_compare(t1_le, c("degree", "evc", "nestedness"), "Law.Enforcement", font_family = "STIX", yaxis = c(0, 1250), xaxis = t1_xaxis_settings, bin_num = 70)
 dev.off()
 
 pdf(file="./vis/histogram/t2_pol.pdf", width = 13.889, height = 2.639)
-nattswap_compare(t2_pol, c("degree", "evc", "nestedness"), "Politician", font_family = "STIX", yaxis = c(0, 1250), xaxis = t2_xaxis_settings, bin_num = 60)
+nattswap_compare(t2_pol, c("degree", "evc", "nestedness"), "Politician", font_family = "STIX", yaxis = c(0, 1250), xaxis = t2_xaxis_settings, bin_num = 70)
 dev.off()
 
 pdf(file="./vis/histogram/t2_le.pdf", width = 13.889, height = 2.639)
-nattswap_compare(t2_le, c("degree", "evc", "nestedness"), "Law.Enforcement", font_family = "STIX", yaxis = c(0, 1250), xaxis = t2_xaxis_settings, bin_num = 60)
+nattswap_compare(t2_le, c("degree", "evc", "nestedness"), "Law.Enforcement", font_family = "STIX", yaxis = c(0, 1250), xaxis = t2_xaxis_settings, bin_num = 70)
 dev.off()
 
