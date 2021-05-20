@@ -95,7 +95,7 @@ degree_plot
 
 # eigenvector
 evc_plot = ggplot(bill_melt[bill_melt$variable == "evc" & bill_melt$group != "Thompson",], aes(x=variable, y=value)) +
-  geom_segment(aes(x=variable, xend=variable, y=min(value), yend=0.026289433), linetype="dashed", size=0.1) +   # Draw dashed lines
+  geom_segment(aes(x=variable, xend=variable, y=min(value), yend=0.03), linetype="dashed", size=0.1) +   # Draw dashed lines
   geom_point(aes(col=group), size=5) +   # Draw points
   scale_color_manual(breaks = c("Non-State", "Law Enforcement", "Politician"), values = c(crim.col, le.col, pol.col)) +
   labs(title="Eigenvector", subtitle=NULL, color = "Node Type") + xlab(NULL) + ylab("Median Value") +
