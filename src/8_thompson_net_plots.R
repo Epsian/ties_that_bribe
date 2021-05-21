@@ -249,4 +249,9 @@ lapply(thompson_blocks, function(x){
   
   })
 
+# find the smallest nest
+
+summary(sapply(t2_blocks, length))
+
+
 
