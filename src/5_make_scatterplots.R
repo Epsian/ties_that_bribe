@@ -53,7 +53,7 @@ t1_dn_plot = ggplot(t1_data, aes(x = degree, y = nestedness, color = `Node Type`
   ylim(0, 35)
 
 # turn into dynamic with plotly
-t1_dn_plot_dyn = ggplotly(t1_dn_plot) %>% layout(title = list(text = paste0('Nestedness by Degree Centrality', '<br>', '<sup>', '1900-1919', '</sup>')), xaxis = list(title = "Degree Centrality"), yaxis = list(title = "Nestedness"))
+t1_dn_plot_dyn = ggplotly(t1_dn_plot) %>% layout(title = list(text = paste0('Nestedness by Degree Centrality', '<br>', '<sup>', '1900-1919 (N=267)', '</sup>')), xaxis = list(title = "Degree Centrality"), yaxis = list(title = "Nestedness"))
 
 # save static and dynamic plots
 orca(t1_dn_plot_dyn, "./vis/scatterplots/t1_dn_plot.pdf", width = .static_width, height = .static_height)
@@ -72,7 +72,7 @@ t1_en_plot = ggplot(t1_data, aes(x = evc, y = nestedness, color = `Node Type`)) 
   ylim(0, 35)
 
 # turn into dynamic with plotly
-t1_en_plot_dyn = ggplotly(t1_en_plot) %>% layout(title = list(text = paste0('Nestedness by Eigenvector Centrality', '<br>', '<sup>', '1900-1919', '</sup>')), xaxis = list(title = "Eigenvector Centrality"), yaxis = list(title = "Nestedness"))
+t1_en_plot_dyn = ggplotly(t1_en_plot) %>% layout(title = list(text = paste0('Nestedness by Eigenvector Centrality', '<br>', '<sup>', '1900-1919 (N=267)', '</sup>')), xaxis = list(title = "Eigenvector Centrality"), yaxis = list(title = "Nestedness"))
 
 # save static and dynamic plots
 orca(t1_en_plot_dyn, "./vis/scatterplots/t1_en_plot.pdf", width = .static_width, height = .static_height)
@@ -93,7 +93,7 @@ t2_dn_plot = ggplot(t2_data, aes(x = degree, y = nestedness, color = `Node Type`
   ylim(0, 35)
 
 # turn into dynamic with plotly
-t2_dn_plot_dyn = ggplotly(t2_dn_plot) %>% layout(title = list(text = paste0('Nestedness by Degree Centrality', '<br>', '<sup>', '1920-1933', '</sup>')), xaxis = list(title = "Degree Centrality"), yaxis = list(title = "Nestedness"))
+t2_dn_plot_dyn = ggplotly(t2_dn_plot) %>% layout(title = list(text = paste0('Nestedness by Degree Centrality', '<br>', '<sup>', '1920-1933 (N=937)', '</sup>')), xaxis = list(title = "Degree Centrality"), yaxis = list(title = "Nestedness"))
 
 # save static and dynamic plots
 orca(t2_dn_plot_dyn, "./vis/scatterplots/t2_dn_plot.pdf", width = .static_width, height = .static_height)
@@ -112,7 +112,7 @@ t2_en_plot = ggplot(t2_data, aes(x = evc, y = nestedness, color = `Node Type`)) 
   ylim(0, 35)
 
 # turn into dynamic with plotly
-t2_en_plot_dyn = ggplotly(t2_en_plot) %>% layout(title = list(text = paste0('Nestedness by Eigenvector Centrality', '<br>', '<sup>', '1920-1933', '</sup>')), xaxis = list(title = "Eigenvector Centrality"), yaxis = list(title = "Nestedness"))
+t2_en_plot_dyn = ggplotly(t2_en_plot) %>% layout(title = list(text = paste0('Nestedness by Eigenvector Centrality', '<br>', '<sup>', '1920-1933 (N=937)', '</sup>')), xaxis = list(title = "Eigenvector Centrality"), yaxis = list(title = "Nestedness"))
 
 # save static and dynamic plots
 orca(t2_en_plot_dyn, "./vis/scatterplots/t2_en_plot.pdf", width = .static_width, height = .static_height)
