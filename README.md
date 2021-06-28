@@ -10,7 +10,7 @@ Joseph, Jared & Smith, Chris (2021). The Ties that Bribe: Corruption’s Embedde
 
 This is the project repository for our paper *The Ties that Bribe*. It contains all the code used to intake, transform, analyze, and visualize the date used for our project. While the data is not yet available, we hope making the code public will encourage examination and discussion about our methods. If you are interested in the simulations specifically, you can find the R package for that code in the [nattswap](https://github.com/Epsian/nattswap) repository. A diagram of the code flow of the project is shown below.
 
-![Code flow diagram](vis/codeflow.png?raw=true "Code Flow")
+![code_flow_diagram](vis/codeflow.png?raw=true "Codeflow")
 
 ## Read More
 
