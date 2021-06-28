@@ -187,3 +187,43 @@ t2.interactive = visNetwork(nodes = t2.visnet$nodes, edges = t2.visnet$edges) %>
 
 saveWidget(t2.interactive, "t2_interactive_network.html")
 
+# make plots for website ####
+
+# make copies of existing network above
+t1.visnet_web = t1.visnet
+t2.visnet_web = t2.visnet
+
+# add nicer colors
+t1.visnet_web$nodes$color[t1.visnet_web$nodes$group == "Law Enforcement"] = "#362c47"
+t1.visnet_web$nodes$color[t1.visnet_web$nodes$group == "Politician"] = "#ff7400"
+
+t2.visnet_web$nodes$color[t2.visnet_web$nodes$group == "Law Enforcement"] = "#362c47"
+t2.visnet_web$nodes$color[t2.visnet_web$nodes$group == "Politician"] = "#ff7400"
+
+t1.interactive_web = visNetwork(nodes = t1.visnet_web$nodes, edges = t1.visnet_web$edges) %>%
+  visEdges(color = list(color = "grey", highlight = "black"), smooth = FALSE) %>%
+  visOptions(highlightNearest = TRUE, selectedBy = "group") %>%
+  visLayout(randomSeed = 1337) %>%
+  visPhysics(solver = "forceAtlas2Based")
+
+saveWidget(t1.interactive_web, "t1_interactive_network_web.html")
+
+t2.interactive_web = visNetwork(nodes = t2.visnet_web$nodes, edges = t2.visnet_web$edges) %>%
+  visEdges(color = list(color = "grey", highlight = "black"), smooth = FALSE) %>%
+  visOptions(highlightNearest = TRUE, selectedBy = "group") %>%
+  visLayout(randomSeed = 1337) %>%
+  visPhysics(solver = "forceAtlas2Based", timestep = 0.35)
+
+saveWidget(t2.interactive_web, "t2_interactive_network_web.html")
+
+
+
+
+
+
+
+
+
+
+
+
