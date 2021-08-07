@@ -204,8 +204,8 @@ t1.interactive_web = visNetwork(nodes = t1.visnet_web$nodes, edges = t1.visnet_w
   visEdges(color = list(color = "grey", highlight = "black"), smooth = FALSE) %>%
   visOptions(highlightNearest = TRUE, selectedBy = "group") %>%
   visLayout(randomSeed = 1337) %>%
-  visPhysics(solver = "forceAtlas2Based") %>%
-  visLegend(main = "Node Type")
+  visPhysics(solver = "forceAtlas2Based")
+#%>% visLegend(main = "Node Type")
 
 t1.interactive_web$sizingPolicy$browser$fill = TRUE
 
@@ -215,8 +215,8 @@ t2.interactive_web = visNetwork(nodes = t2.visnet_web$nodes, edges = t2.visnet_w
   visEdges(color = list(color = "grey", highlight = "black"), smooth = FALSE) %>%
   visOptions(highlightNearest = TRUE, selectedBy = "group") %>%
   visLayout(randomSeed = 1337) %>%
-  visPhysics(solver = "forceAtlas2Based", timestep = 0.35) %>%
-  visLegend(main = "Node Type")
+  visPhysics(solver = "forceAtlas2Based", timestep = 0.35)
+#%>% visLegend(main = "Node Type")
 
 t2.interactive_web$sizingPolicy$browser$fill = TRUE
 
