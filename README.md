@@ -2,7 +2,7 @@
 
 Please cite as:
 
-Joseph, Jared & Smith, Chris (2021). The Ties that Bribe: Corruption’s Embeddedness in Chicago Organized Crime. Criminology, forthcoming.
+ Joseph, J, Smith, CM. The ties that bribe: Corruption's embeddedness in chicago organized crime. Criminology. 2021; 1– 33. https://doi.org/10.1111/1745-9125.12287 
 
 ## Overview
 
