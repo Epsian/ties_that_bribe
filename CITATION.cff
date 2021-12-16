@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+authors:
+- family-names: "Joseph"
+  given-names: "Jared"
+  orcid: " https://orcid.org/0000-0003-3487-0488""
+title: "The Ties that Bribe: Corruption’s Embeddedness in Chicago Organized Crime Codebase"
+date-released: 2021-8-13
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Joseph"
+    given-names: "Jared"
+    orcid: " https://orcid.org/0000-0003-3487-0488"
+  - family-names: "Smith"
+    given-names: "Chris"
+    orcid: "https://orcid.org/0000-0002-4697-2177"
+  doi: "10.1111/1745-9125.12287"
+  journal: "Criminology"
+  month: 8
+  start: 671 # First page number
+  end: 703 # Last page number
+  title: "The ties that bribe: Corruption's embeddedness in Chicago organized crime"
+  issue: 4
+  volume: 59
+  year: 2021
